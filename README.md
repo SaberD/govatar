@@ -1,31 +1,51 @@
 # GOvatar
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 [![GoDoc](https://godoc.org/github.com/o1egl/govatar?status.svg)](https://godoc.org/github.com/o1egl/govatar)
-[![Build Status](http://img.shields.io/travis/o1egl/govatar.svg?style=flat-square)](https://travis-ci.org/o1egl/govatar)
-[![Coverage Status](http://img.shields.io/coveralls/o1egl/govatar.svg?style=flat-square)](https://coveralls.io/r/o1egl/govatar)
+[![Build](https://github.com/o1egl/govatar/actions/workflows/main.yaml/badge.svg)](https://github.com/o1egl/govatar/actions/workflows/main.yaml)
+[![Coverage](https://codecov.io/gh/o1egl/govatar/branch/master/graph/badge.svg)](https://codecov.io/gh/o1egl/govatar)
 [![Go Report Card](https://goreportcard.com/badge/github.com/o1egl/govatar)](https://goreportcard.com/report/github.com/o1egl/govatar)
 
 ![GOvatar image](files/avatars.jpg)
 
-GOvatar is an avatar generation library writen in GO
+GOvatar is an avatar generation library written in GO
+
+---
+
+#### Notes
+1. From release v0.4.0 onward, the minimal supported golang version is 1.16.
+
+---
 
 ## Install
 
-To install the library and command line program, use the following:
+### Brew
+
+```
+$ brew tap o1egl/tap
+$ brew install govatar
+```
+
+### Docker
+
+```
+$ docker pull o1egl/govatar
+```
+
+### From source
 
 ```
 $ go get -u github.com/o1egl/govatar/...
 ```
 
-[Binary packages](https://github.com/o1egl/govatar/releases) are available for Mac, Linux and Windows.
+Prebuilt [binary packages](https://github.com/o1egl/govatar/releases) are available for Mac, Linux, and Windows.
 
 ## Usage
 
 ```bash
-    $ govatar generate male -o avatar.png                        # Generates random avatar.png for male
-    $ govatar generate female -o avatar.png                      # Generates random avatar.png for female
-    $ govatar generate male -u username@site.com -o avatar.png   # Generates avatar.png for specified username
-    $ govatar -h                                                 # Display help message
+$ govatar generate male -o avatar.png                        # Generates random avatar.png for male
+$ govatar generate female -o avatar.png                      # Generates random avatar.png for female
+$ govatar generate male -u username@site.com -o avatar.png   # Generates avatar.png for specified username
+$ govatar -h                                                 # Display help message
 ```
 
 #### As lib
@@ -33,15 +53,15 @@ $ go get -u github.com/o1egl/govatar/...
 Generates avatar and save it to filePath
 
 ```go
-    err := govatar.GenerateFile(govatar.MALE, "/path/to/avatar.jpg"
-    err := govatar.GenerateFileFromUsername(govatar.MALE, "username", "/path/to/avatar.jpg")
+err := govatar.GenerateFile(govatar.MALE, "/path/to/avatar.jpg")
+err := govatar.GenerateFileForUsername(govatar.MALE, "username", "/path/to/avatar.jpg")
 ````
 
-Generates avatar and return it as image.Image
+Generates an avatar and returns it as an image.Image
 
 ```go
-    img, err := govatar.Generate(govatar.MALE)
-    img, err := govatar.GenerateFromUsername(govatar.MALE, "username")
+img, err := govatar.Generate(govatar.MALE)
+img, err := govatar.GenerateForUsername(govatar.MALE, "username")
 ````
 
 
@@ -49,9 +69,8 @@ Generates avatar and return it as image.Image
 
 ### Adding new skins
 
-1. Add new skins to background, male/clothes, female/hair and etc...
-2. Run ``$ make assets`` for building embedded assets.
-3. Submit pull request :)
+1. Add new skins to the background, male/clothes, female/hair, etc...
+2. Submit pull request :)
 
 ### Submitting a Pull Request
 

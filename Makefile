@@ -7,16 +7,10 @@ ext = $(word 3, $(temp))
 VERSION := $(shell git describe --always --abbrev=6 --tags)
 
 .PHONY: build
-
 build: clean $(PLATFORMS);
 
 clean:
 	rm -rf build/
-
-assets:
-	find ./data ! -regex ".*\.png$$" -type f | xargs rm
-	go-bindata -nomemcopy -nometadata -pkg bindata -o ./bindata/bindata.go data/...
-	goimports -w bindata/bindata.go
 
 $(PLATFORMS):
 	GOOS=$(os) GOARCH=$(arch) go build -ldflags "-X main.version=${VERSION}" -o 'build/govatar$(ext)' ./govatar
