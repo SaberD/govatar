@@ -1,16 +1,17 @@
-FROM golang:latest as builder
+# STAGE 1 builder
+FROM golang:latest
 WORKDIR /app
 COPY . .
-
-# run
 RUN go mod tidy
-RUN go build -o /go/bin/govatar-server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o server
+#RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o server
 
+# STAGE 2 runner
 FROM scratch
-COPY --from=builder /go/bin/govatar-server /go/bin/govatar-server
+COPY --from=0 /app/server /app/server
 
 # Misc
 EXPOSE 8080
 
 # Start the server
-ENTRYPOINT ["/go/bin/govatar-server"]
+ENTRYPOINT ["/app/server"]

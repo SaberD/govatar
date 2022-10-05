@@ -1,16 +1,19 @@
 package main
 
 import (
+	"embed"
 	"html/template"
 	"image"
+	"image/jpeg"
 	"log"
 	"net/http"
 	"time"
 
-	"image/jpeg"
-
 	"github.com/o1egl/govatar"
 )
+
+//go:embed templates
+var templates embed.FS
 
 func main() {
 	port := "8080"
@@ -58,8 +61,18 @@ func postAvatar(w http.ResponseWriter, r *http.Request) {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("templates/index.html")
-		t.Execute(w, nil)
+		t, err := template.ParseFS(templates, "templates/index.html")
+		if err != nil {
+			log.Println(err)
+			http.NotFound(w, r)
+			return
+		}
+		err = t.Execute(w, nil)
+		if err != nil {
+			log.Println(err)
+			http.NotFound(w, r)
+			return
+		}
 	} else {
 		http.NotFound(w, r)
 	}
